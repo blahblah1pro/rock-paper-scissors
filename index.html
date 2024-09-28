@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+    <meta char="UTF-8">
+<head>
+<title>
+    rock_paper_scissors game
+</title>
+<style>
+
+</style>
+</head>
+<body>
+<script>
+let botchoice,userchoice,botpoints=0,userpoints=0,tries=1;
+function getComputerChoice(){                                    //function getting computer choice
+ let num=Math.random();
+ if(num>=0 && num<=0.33){
+botchoice="rock";
+}else if(num>0.33 && num<=0.67){
+    botchoice="paper"
+}else{
+    botchoice="scissors"
+}
+}
+function getUserChoice(){
+userchoice=prompt("Enter your choice:-");                      //function getting user choice
+userchoice=userchoice.toLowerCase();
+}
+function check(){                                               //points calculating function
+    if(botchoice=="rock" ){
+      if(userchoice=="paper"){
+        userpoints++;
+      }else if(userchoice=="scissors"){
+        botpoints++;
+      }
+    }else if(botchoice=="paper"){
+        if(userchoice=="rock"){
+            botpoints++;
+        }else if(userchoice=="scissors"){
+            userpoints++;
+        }
+    }else if(botchoice=="scissors"){
+        if(userchoice=="paper"){
+            botpoints++;
+        }else if(userchoice=="rock"){
+            userpoints++;
+        }
+    }else if(userchoice!="rock" && userchoice!="paper" && userchoice!="scissors"){
+      console.log("Wrong input");
+    }
+
+}
+console.log("Rock,Paper,Scissors game.")
+    console.log("You have 5 tries");
+while(tries<=5){                                                   //loop to take care of number of rounds
+console.log("Try:"+tries);
+getComputerChoice();
+getUserChoice();
+check();
+tries++;
+console.log("Computer:"+botchoice);
+console.log("User:"+userchoice);
+}
+if(botpoints!=userpoints){
+if(botpoints>userpoints){
+    console.log("Computer won the game.");                        
+}else if(botpoints<userpoints){
+    console.log("User won the game");
+}
+}else{
+ console.log("Tiebreaker round");
+getComputerChoice();
+getUserChoice();
+check();
+tries++;
+console.log("Computer:"+botchoice);
+console.log("User:"+userchoice); 
+}
+</script>
+</body>
+</html>
