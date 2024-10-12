@@ -1,81 +1,104 @@
+
 <!DOCTYPE html>
 <html lang="en">
-    <meta char="UTF-8">
 <head>
-<title>
-    rock_paper_scissors game
-</title>
-<style>
-
-</style>
+    <meta charset="UTF-8">
+    <title>Rock Paper Scissors Game</title>
+    <style>
+        #container {
+            text-align: center;
+            margin-top: 50px;
+        }
+        button {
+            margin: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+        }
+        #console {
+            margin-top: 20px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
-<script>
-let botchoice,userchoice,botpoints=0,userpoints=0,tries=1;
-function getComputerChoice(){                                    //function getting computer choice
- let num=Math.random();
- if(num>=0 && num<=0.33){
-botchoice="rock";
-}else if(num>0.33 && num<=0.67){
-    botchoice="paper"
-}else{
-    botchoice="scissors"
-}
-}
-function getUserChoice(){
-userchoice=prompt("Enter your choice:-");                      //function getting user choice
-userchoice=userchoice.toLowerCase();
-}
-function check(){                                               //points calculating function
-    if(botchoice=="rock" ){
-      if(userchoice=="paper"){
-        userpoints++;
-      }else if(userchoice=="scissors"){
-        botpoints++;
-      }
-    }else if(botchoice=="paper"){
-        if(userchoice=="rock"){
-            botpoints++;
-        }else if(userchoice=="scissors"){
-            userpoints++;
-        }
-    }else if(botchoice=="scissors"){
-        if(userchoice=="paper"){
-            botpoints++;
-        }else if(userchoice=="rock"){
-            userpoints++;
-        }
-    }else if(userchoice!="rock" && userchoice!="paper" && userchoice!="scissors"){
-      console.log("Wrong input");
-    }
+    <div id="container">
+        <div id="remote"></div>
+        <div id="console"></div>
+    </div>
+    <script>
+        const Button1 = document.createElement("button");
+        const Button2 = document.createElement("button");
+        const Button3 = document.createElement("button");
+        const Container = document.getElementById("container");
+        const Remote = document.getElementById("remote");
+        const Console = document.getElementById("console");
+        let botpoints = 0, userpoints = 0;
 
+        Button1.textContent = "Rock";
+        Button2.textContent = "Paper";
+        Button3.textContent = "Scissors";
+        Remote.appendChild(Button1);
+        Remote.appendChild(Button2);
+        Remote.appendChild(Button3);
+
+        Container.appendChild(Remote);
+        Container.appendChild(Console);
+
+        function getComputerChoice() {
+            const num = Math.random();
+            if (num < 0.33) return "rock";
+            if (num < 0.67) return "paper";
+            return "scissors";
+        }
+
+        function playRound(userchoice) {
+            const botchoice = getComputerChoice();
+            if (botchoice === userchoice) {
+                Console.textContent = "It's a tie!";
+            } else if (
+                (botchoice === "rock" && userchoice === "scissors") ||
+                (botchoice === "paper" && userchoice === "rock") ||
+                (botchoice === "scissors" && userchoice === "paper")
+            ) {
+                botpoints++;
+                Console.textContent = `Computer chose ${botchoice}. Computer wins this round!`;
+            } else {
+                userpoints++;
+                Console.textContent = `Computer chose ${botchoice}. You win this round!`;
+            }
+            updateScore();
+            checkWinner();
+        }
+
+        function updateScore() {
+            Console.textContent += ` (Score - You: ${userpoints}, Computer: ${botpoints})`;
+        }
+
+
+        function checkWinner() {
+    if (userpoints === 5) {
+        Console.textContent = "Congratulations! You are the overall winner!";
+        resetGame();
+    } else if (botpoints === 5) {
+        Console.textContent = "Computer is the overall winner! Better luck next time!";
+        resetGame();
+    }
 }
-console.log("Rock,Paper,Scissors game.")
-    console.log("You have 5 tries");
-while(tries<=5){                                                   //loop to take care of number of rounds
-console.log("Try:"+tries);
-getComputerChoice();
-getUserChoice();
-check();
-tries++;
-console.log("Computer:"+botchoice);
-console.log("User:"+userchoice);
+
+function resetGame() {
+    botpoints = 0;
+    userpoints = 0;
+    // Optionally, you can reset the display or add a button to restart
+    // Console.textContent += " Click to restart!";
 }
-if(botpoints!=userpoints){
-if(botpoints>userpoints){
-    console.log("Computer won the game.");                        
-}else if(botpoints<userpoints){
-    console.log("User won the game");
-}
-}else{
- console.log("Tiebreaker round");
-getComputerChoice();
-getUserChoice();
-check();
-tries++;
-console.log("Computer:"+botchoice);
-console.log("User:"+userchoice); 
-}
-</script>
+        function choice1() { playRound("rock"); }
+        function choice2() { playRound("paper"); }
+        function choice3() { playRound("scissors"); }
+
+        Button1.addEventListener("click", choice1);
+        Button2.addEventListener("click", choice2);
+        Button3.addEventListener("click", choice3);
+    </script>
 </body>
 </html>
